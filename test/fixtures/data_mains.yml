@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  location: MyString
+  era: MyString
+  long: 1.5
+  lat: 1.5
+  source: MyText
+
+two:
+  title: MyString
+  location: MyString
+  era: MyString
+  long: 1.5
+  lat: 1.5
+  source: MyText

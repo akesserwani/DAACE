@@ -1,0 +1,108 @@
+<%= render partial: "layouts/shared/navbar"%>
+
+<main>
+
+    <div class="wrapper">
+
+        <div class = "list_1">
+            <div class="container side_list">
+        <!--Show active/submission boxes only if logged in-->
+        <%if user_signed_in?%>
+            <div id = "status_box">
+                <h style = "color: #666; font-size: 30px; margin-left: 20px;">Active</h>
+            </div>
+        <%end%>
+            <% @view_data.where(:status => "approved").each do |p| %>
+                <%= link_to view_path(p) do %>
+                    <div class = "list_element">
+                        <div class = "text_list_container"> 
+                            <h class = "list_header"><%=p.title %></h>
+                            <p class = "list_para"> <%=p.location %></p>
+                            <p class = "list_para"> Period: <%=p.era %></p>
+                        </div>
+                    </div><br>
+                <%end%>
+            <%end%>
+                <% if !user_signed_in? %>
+                    <%= link_to '<div class = "circle_button" id = "add_button"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">add</span></div>'.html_safe, new_path %>
+                 <%end%>
+            </div>
+        </div>
+
+        <!--Google Map-->
+        <div class = "list_2">
+            <div class="container side_list" id = "map_container">
+
+            <%if user_signed_in?%>
+                <!--Show active/submission boxes only if logged in-->
+                    <div id = "status_box">
+                        <h style = "color: #666; font-size: 30px; margin-left: 20px;">Submissions</h>
+                        <%= link_to '<div class = "circle_button" style = "position: absolute; right: 50px;top:10px;"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">add</span></div>'.html_safe, new_path %>
+                    </div>
+
+                <% @view_data.where(:status => "unapproved").each do |p| %>
+                    <%= link_to view_path(p) do %>
+                        <div class = "list_element">
+                            <div class = "text_list_container"> 
+                                <h class = "list_header"><%=p.title %></h>
+                                <p class = "list_para"> <%=p.location %></p>
+                            </div>
+                        </div><br>
+                    <%end%>
+                <%end%>
+
+            <%else%>
+                <!--Display map when not logged in-->
+                <div id="map" style = "width: 100%; height: 100%;"></div>
+            <%end%>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <!--Google Maps -->
+    <script>
+        //Pass @map_data from controller to map.js file 
+        var map_data =  <%= raw @map_data.to_json %>;
+
+            function initMap() {
+            //initialize map
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 6,
+                center: { lat: 33.8938, lng: 35.5018 }
+            });
+            //loop through the json object from ruby controller 
+            for (let key in map_data) {
+
+                const marker = new google.maps.Marker({
+                    map: map,
+                    position: { lat: map_data[key][1], lng: map_data[key][2] },
+                    title: map_data[key][0],
+                });
+
+                //add onclick functions for tag with: name, location, era, info button as link 
+                marker.addListener('click', function() {
+                    window.location.href = '/view/' + key;
+                })
+                
+            }
+
+
+
+
+
+            }
+            window.initMap = initMap;
+    </script>
+    <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyBFzj3oG88vPtwxM4nPlZHxX593MhIOhgA&callback=initMap", defer: true %>
+
+
+
+ </main>
+
+    <%= render partial: "layouts/shared/footer"%>
+
+
+</html>

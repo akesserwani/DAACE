@@ -1,0 +1,22 @@
+<%= render partial: "layouts/shared/navbar"%>
+
+<p id="notice"><%= notice %></p>
+<p id="alert"><%= alert %></p>
+
+<div class="wrapper">
+    <div class = "list_1">
+        <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;">
+          <div style = "text-align:center;">
+              <h style = "color:#484848; font-size: 5vmin; text-align: center;">Admin Login</h><br><br><br>
+              <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "custom_form", placeholder: "Email", style: "height: 50px;" %>
+                  <%= f.password_field :password, autocomplete: "current-password", class: "custom_form", placeholder: "Password", style: "height: 50px;" %><br><br>
+                  <%= f.submit "Log in", class: "button", style: "position: relative; left: 35%; top: 15%; border:none; height:60px; " %>
+              <% end %>
+          </div>
+        </div>
+    </div>
+</div>
+
+<%= render partial: "layouts/shared/footer"%>
+

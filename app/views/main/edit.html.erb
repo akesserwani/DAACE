@@ -1,0 +1,65 @@
+<%= render partial: "layouts/shared/navbar"%>
+
+
+    
+<%= form_with model: @data_id do |form|%>
+
+    <% if form.object.errors.any?%>
+    <div>
+    <%form.object.errors.full_messages.each do |message| %>
+       <br> <center><div> <%= message %> </div></center>
+        <%end%>
+    </div>
+    <%end%>
+
+
+    <div class="wrapper">
+                <div class = "list_1">
+                    <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;"><br><br>
+                        <h style = "color:#484848; font-size: 4vmin; text-align: center;">Edit Site</h><br>
+                        <form style = "text-align: center;">
+                            <%= form.text_field :title, placeholder: 'Site Name', id: 'site_name', type: 'text', class: 'custom_form', style: 'height:20%;'  %>
+                            <%= form.text_field :location, placeholder: 'Location', id: 'site_location', type: 'text', class: 'custom_form', style: 'height:20%;' %>
+                            <%= form.text_field :era, placeholder: 'Period', id: 'site_period', type: 'text', class: 'custom_form', style: 'height:20%;' %>
+                            <%= form.text_field :long, placeholder: 'Longitude', id: 'site_long', type: 'text', class: 'custom_form', style: 'height:20%;' %>
+                            <%= form.text_field :lat, placeholder: 'Latitude', id: 'site_lat', type: 'text', class: 'custom_form', style: 'height:20%;' %>
+                        </form>
+                    </div>
+                </div>
+
+                <div class = "list_2">
+                    <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;"><br><br>
+                        <h style = "color:#484848; font-size: 4vmin; text-align: center;">Site Information</h><br>
+                        <%= form.text_area :source, id: 'site_info', type: 'text', class: 'custom_form', style: 'position:relative;height:100%;width:95%;padding:20px;'%>
+
+                        <div class = "wrapper" style = "position:relative;top:30px;">
+                            <div style = "width: 30%; height:100px;">
+                                <%= form.radio_button :status, 'approved'%> 
+                                <%= form.label :status, 'Approved', :value => 'approved'%><br>
+                                <%= form.radio_button :status, 'unapproved' %>
+                                <%= form.label :status, 'Unapproved', :value => 'unapproved'%>
+                            </div>
+                            <div style = "width: 50%; height:100px;">
+                            <%= form.radio_button :opt, 'none'%> 
+                            <%= form.label :opt, 'None', :value => 'none'%><br>
+                            <%= form.radio_button :opt, 'red'%> 
+                            <%= form.label :opt, 'Endangered/Abandoned (optional)', :value => 'red'%><br>
+                            <%= form.radio_button :opt, 'blue' %>
+                            <%= form.label :opt, 'Potential Site (optional)', :value => 'blue'%>
+                            </div>
+
+                            <%= form.button 'Update', class: 'button', style: 'font-size: 3vmin; border:none; width: 30%; height:60px;'%>
+                            <%= button_to "Delete", @data_id, method: :delete, class: "button", style: "font-size: 3vmin; border:none; width: 100%; height:60px;", 
+                            data: { confirm: "Are you sure?" } %>
+                        </div>
+
+                    </div>
+                </div>
+            
+        <%end%>
+        </div>
+    
+
+
+
+<%= render partial: "layouts/shared/footer"%>

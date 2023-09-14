@@ -1,0 +1,104 @@
+<%= render partial: "layouts/shared/navbar"%>
+
+
+
+<main>
+        <div class="wrapper">
+                <!--Box 1-->
+                <div class = "list_1">
+                <div class="container side_list">
+                        <div style = "text-align: left; margin-top: 50px; line-height: 1.5; margin-left: 20px;">
+                        <h style = "color: #545454; font-size: 4vh;"> <%= @data_id.title%></h><br>
+                        <h style = "color: #B56768; font-size: 3.5vh;"><%= @data_id.location%></h>
+                        <p style = "color: #B56768; font-size: 3vh;"">Period: <%= @data_id.era%></p>
+                        <p style = "color: #B56768; font-size: 3vh;">Coordinates: <%= @data_id.long%>, <%= @data_id.lat%></p>
+                        
+                        <% if @data_id.opt == "red"%>
+                        <p style = "color: #B56768; font-size: 2.5vh;"><b>Site Abandoned or Endangered</b></p>
+                        <% elsif @data_id.opt == "blue"%>
+                        <p style = "color: #B56768; font-size: 2.5vh;"><b>Potential Site</b></p>
+                        <%end%>
+
+                        </div>
+                        <div class = "circle_button" id = "map_button" style = "position:relative;top:50px;"><span class="material-symbols-outlined" style = "color:white; font-size: 40px; margin:10px;">map</span></div>
+
+                        <!--Allow edit if signed in-->
+                        <%if user_signed_in?%>
+                        <%= link_to '<div class = "circle_button" id = "edit_button" style = "position:relative;top:50px;"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;margin:10px;">edit</span></div>'.html_safe, data_main_path %>
+                        <%end%>
+                </div>
+                </div>
+
+                <!--Box 2-->
+                <div class = "list_2">
+                <div class="container side_list" id = "map_container">
+                        <div style = "text-align: left; margin-top: 50px; line-height: 1.5; margin-left: 20px;">
+                        <h style = "color: #545454; font-size: 4vh;">Site Details</h><br>
+                        <p style = "color: #B56768; font-size: 3vh;"> <%= @data_id.source %> </p>
+                        </div>
+
+                </div>
+        </div>
+
+</main>
+
+<div id="modal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id = "map_individual" style = "width:80%; height:80%;">
+    </div>
+  </div>
+
+
+
+</div>
+
+<script>
+        //stuff for the modal
+        var modal = document.getElementById("modal");
+
+        var btn = document.getElementById("map_button");
+
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+        modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+        }
+        }
+
+        //stuff for the map display
+        var map_data =  <%= raw @data_id.to_json %>;
+
+        function initMapView() {
+
+        //long and lat values inverted for some reason - need to debug 
+        const map = new google.maps.Map(document.getElementById("map_individual"), {
+                zoom: 15,
+                center: { lat: map_data.long, lng: map_data.lat },
+        });
+
+        const marker = new google.maps.Marker({
+                map: map,
+                position: { lat: map_data.long, lng: map_data.lat },
+                title: map_data.title,
+        });
+        }
+
+        window.initMapView = initMapView;
+
+</script>
+
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyBFzj3oG88vPtwxM4nPlZHxX593MhIOhgA&callback=initMapView", defer: true %>
+
+
+<%= render partial: "layouts/shared/footer"%>
