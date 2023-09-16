@@ -16,14 +16,14 @@
     <div class="wrapper">
                 <div class = "list_1">
                     <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;"><br><br>
-                        <h style = "color:#484848; font-size: 4vmin; text-align: center;">Edit Site</h><br>
-                        <form style = "text-align: center;">
+                        <h style = "color:#484848; font-size: 4vmin; text-align: center;position:relative;bottom:50px">Edit Site</h><br>
+                        <div style = "text-align: center;position:relative;bottom:50px;">
                             <%= form.text_field :title, placeholder: 'Site Name', id: 'site_name', type: 'text', class: 'custom_form', style: 'height:20%;'  %>
                             <%= form.text_field :location, placeholder: 'Location', id: 'site_location', type: 'text', class: 'custom_form', style: 'height:20%;' %>
                             <%= form.text_field :era, placeholder: 'Period', id: 'site_period', type: 'text', class: 'custom_form', style: 'height:20%;' %>
                             <%= form.text_field :long, placeholder: 'Longitude', id: 'site_long', type: 'text', class: 'custom_form', style: 'height:20%;' %>
                             <%= form.text_field :lat, placeholder: 'Latitude', id: 'site_lat', type: 'text', class: 'custom_form', style: 'height:20%;' %>
-                        </form>
+                        </div>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
 
         <div class = "list_3">
             <div class="container side_list" style = "width:93%;height:150px;background-color:#EAEAEA; margin: auto;">
-                <div class = "wrapper" style = "position:relative;top:30px;">
+                <div class = "wrapper" style = "position:relative;top:10px;">
                     <div style = "width: 30%; height:100px;margin:auto;">
                         <%= form.radio_button :status, 'approved'%> 
                         <%= form.label :status, 'Approved', :value => 'approved'%><br>
@@ -65,6 +65,8 @@
                             <%= button_to "Delete", @data_id, method: :delete, class: "button", style: "font-size: 3vmin; border:none; width: 120px; height:60px; background-color:#8b7e7e;", 
                             onclick: "return confirmDestroy('Are you sure want to delete this?')"  %>
                         </div>
+                    <%end%>
+
                         <script>
                             function confirmDestroy(message) {
                                 if (!confirm(message)) {
@@ -77,7 +79,6 @@
             </div>
         </div>
 
-        <%end%>
 
 
 <%= render partial: "layouts/shared/footer"%>

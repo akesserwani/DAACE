@@ -25,6 +25,8 @@ class MainController < ApplicationController
 
   def new
     @data_main = DataMain.new
+
+    @text_guide = "<h2>Site Name</h2><br> \n  <p>Site Summary/Details</p><br><hr> \n <h3>New Section</h3><br> \n <p>Section Details</p><br> "
   end
   
   def create

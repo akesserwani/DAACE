@@ -6,7 +6,7 @@ html {
 body{
   position: relative;
   margin: 0 auto;
-  padding-bottom: 150px;
+  padding-bottom: 20%;
 }
 *{
   font-family: Roboto;
