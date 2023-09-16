@@ -4,7 +4,8 @@ html {
   height: 100%;
 }
 body{
-  margin: 0;
+  position: relative;
+  margin: 0 auto;
   padding-bottom: 150px;
 }
 *{
@@ -93,7 +94,7 @@ a:link {
 }
 
 footer{
-  position:fixed; 
+  position:absolute; 
   bottom: 0;
   left:0;
   width: 100%;

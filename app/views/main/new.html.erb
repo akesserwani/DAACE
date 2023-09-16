@@ -13,8 +13,8 @@
 
 <div class="wrapper">
             <div class = "list_1">
-                <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;"><br><br>
-                    <h style = "color:#484848; font-size: 4vmin; text-align: center;">Site Submission (Scroll)</h><br>
+                <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;position:relative;bottom:50px;overflow: hidden;">
+                    <h style = "color:#484848; font-size: 4vmin; text-align: center;">Site Submission</h><br>
                     <center><form>
                         <%= form.text_field :title, placeholder: 'Site Name', id: 'site_name', type: 'text', class: 'custom_form', style: 'height:20%;'  %>
                         <%= form.text_field :location, placeholder: 'Location', id: 'site_location', type: 'text', class: 'custom_form', style: 'height:20%;' %>
@@ -29,14 +29,16 @@
                 <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;"><br><br>
                     <h style = "color:#484848; font-size: 4vmin; text-align: center;">Site Information</h><br>
                         <%= form.text_area :source, id: 'site_info', type: 'text', class: 'custom_form', style: 'height:100%;width: 95%;padding:20px;'%>
-                        <div style = "width: 50%; height:100px;">
+                            <div style = "width: 50%; height:0px; margin:auto;">
+                            <%= form.radio_button :opt, 'none'%> 
+                            <%= form.label :opt, 'None', :value => 'none'%><br>
                             <%= form.radio_button :opt, 'red'%> 
-                            <%= form.label :opt, 'Endangered/Abandoned (optional)', :value => 'red'%><br>
+                            <%= form.label :opt, 'Endangered/Abandoned (opt)', :value => 'red'%><br>
                             <%= form.radio_button :opt, 'blue' %>
-                            <%= form.label :opt, 'Potential Site (optional)', :value => 'blue'%>
-                        </div>
+                            <%= form.label :opt, 'Potential Site (opt)', :value => 'blue'%>
+                            </div><br>
 
-                        <%= form.button 'Submit', class: 'button', style: 'position: relative; left: 35%; top: 15%; margin-bottom: 100px; font-size: 3vmin; height: 50%; border:none;'%>
+                        <%= form.button 'Submit', class: 'button', style: 'position: relative; left: 35%; top: 15%; margin-bottom: 100px; font-size: 3vmin; height: 30%; border:none;'%>
                          <%= form.hidden_field :status, value: "unapproved" %>
                 </div>
             </div>
