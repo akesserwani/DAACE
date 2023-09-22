@@ -4,17 +4,16 @@ class MainController < ApplicationController
   def index
     @view_data = DataMain.all 
 
-
     #getting all data for map.js
     #params to get are title:, long:, lat:
     @map_data = {}
 
+    #get approved sites and add to view_data to be displayed on map (JSON) 
     @view_data.where(:status => "approved").each do |i|
-      @map_data[i.id] = [i.title, i.long, i.lat]
+      @map_data[i.id] = [i.title, i.long, i.lat, i.opt]
     end
 
-    puts @map_data
-
+  
   end
 
   def view
@@ -26,7 +25,11 @@ class MainController < ApplicationController
   def new
     @data_main = DataMain.new
 
-    @text_guide = "<h2>Site Name</h2><br> \n  <p>Site Summary/Details</p><br><hr> \n <h3>New Section</h3><br> \n <p>Section Details</p><br> "
+    @text_guide = "<h2>Site Name</h2><br> \n 
+    <p>Site Summary/Details</p><br><hr> \n 
+    <h3>New Section</h3><br> \n 
+    <p>Section Details</p><br> "
+
   end
   
   def create
@@ -52,7 +55,7 @@ class MainController < ApplicationController
     if @data_id.update(post_params)
       redirect_to view_path
     else
-      render :data_main 
+      render :data_main
     end
   end
 
@@ -66,7 +69,7 @@ class MainController < ApplicationController
   private 
 
   def post_params
-    params.require(:data_main).permit(:title, :location, :era, :long, :lat, :source, :status, :opt)
+    params.require(:data_main).permit(:title, :location, :era, :long, :lat, :source, :status, :opt, :creator_email, :creator_name, :edit_date, :editor_email)
   end
 
 end

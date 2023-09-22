@@ -6,12 +6,8 @@
 
         <div class = "list_1">
             <div class="container side_list">
-        <!--Show active/submission boxes only if logged in-->
-        <%if user_signed_in?%>
-            <div id = "status_box">
-                <h style = "color: #666; font-size: 30px; margin-left: 20px;">Active</h>
-            </div>
-        <%end%>
+
+            <!--Main Data-->
             <% @view_data.where(:status => "approved").each do |p| %>
                 <%= link_to view_path(p) do %>
                     <div class = "list_element">
@@ -23,23 +19,29 @@
                     </div><br>
                 <%end%>
             <%end%>
-                <% if !user_signed_in? %>
-                    <%= link_to '<div class = "circle_button" id = "add_button"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">add</span></div>'.html_safe, new_path %>
-                 <%end%>
-            </div>
-        </div>
 
-        <!--Google Map-->
+            <!--Add Button on left -->
+            <%= link_to '<div class = "circle_button" id = "add_button" style = "float:left; margin:20px;"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">add</span></div>'.html_safe, new_path %>
+            <!--Search button on right -->
+            <div class = "circle_button" id = "search_button" style = "float:right; margin:20px;"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">search</span></div>
+
+        </div>
+    </div>
+
+
+
+
+        <!--Leaflet Map Container - only shows in user view - not admin view -->
         <div class = "list_2">
             <div class="container side_list" id = "map_container">
 
+            <!--Show submission boxes on top only if logged in-->
             <%if user_signed_in?%>
-                <!--Show active/submission boxes only if logged in-->
                     <div id = "status_box">
                         <h style = "color: #666; font-size: 30px; margin-left: 20px;">Submissions</h>
-                        <%= link_to '<div class = "circle_button" style = "position: absolute; right: 50px;top:10px;"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">add</span></div>'.html_safe, new_path %>
                     </div>
 
+                <!--Displays submission box for Admin view-->
                 <% @view_data.where(:status => "unapproved").each do |p| %>
                     <%= link_to view_path(p) do %>
                         <div class = "list_element">
@@ -62,45 +64,100 @@
 
     </div>
 
-    <!--Google Maps -->
+
+    <!--Leaflet Map -->
     <script>
         //Pass @map_data from controller to map.js file 
         var map_data =  <%= raw @map_data.to_json %>;
 
-            function initMap() {
-            //initialize map
-            const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 6,
-                center: { lat: 33.8938, lng: 35.5018 }
+
+        //create marker with color as argument - map_data[key][3]
+        function colored_icon(color){
+            return green = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
             });
-            //loop through the json object from ruby controller 
-            for (let key in map_data) {
+        }
 
-                const marker = new google.maps.Marker({
-                    map: map,
-                    position: { lat: map_data[key][1], lng: map_data[key][2] },
-                    title: map_data[key][0],
-                });
+        var map = L.map ('map')
+        map.setView([34.0047, 36.2110], 5);
 
-                //add onclick functions for tag with: name, location, era, info button as link 
-                marker.addListener('click', function() {
-                    window.location.href = '/view/' + key;
-                })
-                
-            }
+        L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=gYAdQevZTRyC4s7dinqH',{
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+        }).addTo(map)
 
 
+        //Load all pins
+        for (let key in map_data) {
+            var marker = L.marker([map_data[key][1], map_data[key][2]],  {icon: colored_icon(map_data[key][3])});
+            //add onclick functions for tag with: name, location, era, info button as link 
+            marker.on("click", function (event) {
+                window.location.href = '/view/' + key;
+            });
+
+            marker.addTo(map);
+        }
+
+         //Legend
+        var legend = L.control({ position: "bottomleft" });
+
+        legend.onAdd = function(map) {
+        var div = L.DomUtil.create("div", "legend");
+        div.innerHTML += "<h4>Key</h4>";
+        div.innerHTML += '<img src = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png" style = "width:15px;"><span>&nbsp;&nbsp;Active/Regulated</span><br>';
+        div.innerHTML += '<img src = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png" style = "width:15px;"><span>&nbsp;&nbsp;Abandoned/At Risk</span><br>';
+        div.innerHTML += '<img src = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png" style = "width:15px;"><span>&nbsp;&nbsp;Potential Site</span><br>';
+        
+        return div;
+        };
+
+        legend.addTo(map);
+
+        //Search Button Returns coming soon
+        var btn = document.getElementById("search_button");
+        btn.onclick = function(){
+            alert("Search function coming soon");
+        }
 
 
-
-            }
-            window.initMap = initMap;
     </script>
-    <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyBFzj3oG88vPtwxM4nPlZHxX593MhIOhgA&callback=initMap", defer: true %>
+    <!--Style for legend section-->
+    <style>
+        /*Legend specific*/
+        .legend {
+        padding: 6px 8px;
+        font: 14px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        /*box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);*/
+        /*border-radius: 5px;*/
+        line-height: 24px;
+        color: #555;
+        }
+        .legend h4 {
+        text-align: center;
+        font-size: 16px;
+        margin: 2px 12px 8px;
+        color: #777;
+        }
+
+        .legend span {
+        position: relative;
+        bottom: 3px;
+        }
+
+    </style>
+
 
 
 
  </main>
+
+
 
     <%= render partial: "layouts/shared/footer"%>
 

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   #update the form -> only as admin
   patch '/view/:id/edit', to: 'main#update'
   #delete the post
-  delete '/view/:id/edit', to: 'main#destroy'
+  delete '/view/:id', to: 'main#destroy', as: :destroy_data_main
   #edit post -> only as admin 
   get '/view/:id/edit', to: 'main#edit', as: :data_main
 
@@ -17,3 +17,4 @@ Rails.application.routes.draw do
   root "main#index", as: :index
 
 end
+

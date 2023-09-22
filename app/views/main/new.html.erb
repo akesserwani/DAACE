@@ -12,34 +12,50 @@
     <%end%>
 
 <div class="wrapper">
-            <div class = "list_1">
-                <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;position:relative;bottom:50px;overflow: hidden;">
-                    <h style = "color:#484848; font-size: 4vmin; text-align: center;">Site Submission</h><br>
-                    <center><form>
-                        <%= form.text_field :title, placeholder: 'Site Name', id: 'site_name', type: 'text', class: 'custom_form', style: 'height:20%;'  %>
-                        <%= form.text_field :location, placeholder: 'Location', id: 'site_location', type: 'text', class: 'custom_form', style: 'height:20%;' %>
-                        <%= form.text_field :era, placeholder: 'Period', id: 'site_period', type: 'text', class: 'custom_form', style: 'height:20%;' %>
-                        <%= form.text_field :long, placeholder: 'Longitude', id: 'site_long', type: 'text', class: 'custom_form', style: 'height:20%;' %>
-                        <%= form.text_field :lat, placeholder: 'Latitude', id: 'site_lat', type: 'text', class: 'custom_form', style: 'height:20%;' %>
-                    </form></center>
+            <div class = "list_1" style = "overflow-y:scroll;overflow: -moz-scrollbars-vertical; ">
+                <div class="side_list" style = "margin:50px; width:80%;">
+                    <h style = "color:#484848; font-size: 4vmin; text-align: center; margin-left:20px;">Site Submission</h><br><br>
+                        <%= form.text_field :creator_name, placeholder: 'Name', id: 'name', type: 'text', class: 'custom_form', style: 'height:10%;'  %>
+                        <%= form.text_field :creator_email, placeholder: 'Email', id: 'email_form', type: 'text', class: 'custom_form', style: 'height:10%;' %>
+                        <hr>
+                        <%= form.text_field :title, placeholder: 'Site Name', id: 'site_name', type: 'text', class: 'custom_form', style: 'height:10%;'  %>
+                        <%= form.text_field :location, placeholder: 'Location', id: 'site_location', type: 'text', class: 'custom_form', style: 'height:10%;' %>
+                        <%= form.text_field :era, placeholder: 'Period', id: 'site_period', type: 'text', class: 'custom_form', style: 'height:10%;' %>
+                        <%= form.text_field :long, placeholder: 'Longitude', id: 'site_long', type: 'text', class: 'custom_form', style: 'height:10%;' %>
+                        <%= form.text_field :lat, placeholder: 'Latitude', id: 'site_lat', type: 'text', class: 'custom_form', style: 'height:10%;' %>
+
+                        <%= form.hidden_field :create_date, value: Time.now.strftime("%d/%m/%Y %H:%M") %>
                 </div>
             </div>
 
-            <div class = "list_2">
-                <div class="container side_list" style = "display: flex; justify-content: center;flex-direction: column;"><br><br>
-                    <h style = "color:#484848; font-size: 4vmin; text-align: center;">Site Information</h><br>
+            <div class = "list_2" style = "overflow-y:scroll;overflow: -moz-scrollbars-vertical;">
+                <div class="side_list"><br><br>
+                    <h style = "color:#484848; font-size: 4vmin; text-align: center; margin:20px;">Site Information</h><br>
                         <%= form.text_area :source, id: 'site_info', type: 'text', class: 'custom_form', style: 'height:100%;width: 95%;padding:20px;', value: @text_guide%>
-                            <div style = "width: 50%; height:10%; margin:auto;">
-                            <%= form.radio_button :opt, 'none'%> 
-                            <%= form.label :opt, 'None - Active and Maintained', :value => 'green'%><br>
-                            <%= form.radio_button :opt, 'red'%> 
-                            <%= form.label :opt, 'Endangered/Abandoned (opt)', :value => 'red'%><br>
-                            <%= form.radio_button :opt, 'blue' %>
-                            <%= form.label :opt, 'Potential Site (opt)', :value => 'blue'%>
-                            </div><br>
+                            <br><br><br>
 
-                        <%= form.button 'Submit', class: 'button', style: 'position: relative; left: 35%; top: 15%; margin-bottom: 100px; font-size: 3vmin; height: 30%; border:none;'%>
+                            <!--Only allow approval through site submission if signed in -->
+                            <% if user_signed_in?%>
+                            <div style = "width: 70%; height:10%; margin:auto;">
+                                <%= form.radio_button :status, 'approved'%> 
+                                <%= form.label :status, 'Approved', :value => 'approved'%><br>
+                                <%= form.radio_button :status, 'unapproved' %>
+                                <%= form.label :status, 'Unapproved', :value => 'unapproved'%>
+                            </div>
+                            <%end%>
+
+                            <div style = "width: 70%; height:10%; margin:auto;">
+                                <%= form.radio_button :opt, 'none'%> 
+                                <%= form.label :opt, 'Active and Maintained', :value => 'green'%><br>
+                                <%= form.radio_button :opt, 'red'%> 
+                                <%= form.label :opt, 'Endangered/Abandoned', :value => 'red'%><br>
+                                <%= form.radio_button :opt, 'blue' %>
+                                <%= form.label :opt, 'Potential Site', :value => 'blue'%>
+                            </div>
+                            <br><br>
+                        <%= form.button 'Submit', class: 'button', style: 'margin:0 auto; font-size: 3vmin; height: 15%; border:none;'%>
                          <%= form.hidden_field :status, value: "unapproved" %>
+                        <br> 
                 </div>
             </div>
         

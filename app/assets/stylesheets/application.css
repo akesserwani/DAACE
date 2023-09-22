@@ -24,13 +24,13 @@ a:link {
 
  .list_1{
   width: 50%;
-  height: 500px;
+  height: 80vh;
   background:#EAEAEA;
   margin:10px;
 }
 .list_2{
   width: 50%;
-  height: 500px;
+  height: 80vh;
   background:#EAEAEA;
   margin:10px;
 
@@ -122,7 +122,6 @@ footer{
 /*List Elements for side_list*/
 
 .side_list{
-  overflow-y:auto;
   height: 100%;
   width: 100%;
 }
@@ -130,7 +129,7 @@ footer{
 .list_element{
   position: relative;
   width: 80%;
-  height: 20%;
+  height: 15%;
   margin:auto;
   top: 20px;
   background: #D9D9D9;
