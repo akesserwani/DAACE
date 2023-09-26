@@ -29,7 +29,7 @@ class MainController < ApplicationController
     <p>Site Summary/Details</p><br><hr> \n 
     <h3>New Section</h3><br> \n 
     <p>Section Details</p><br><hr> \n 
-    <a href = '' target= '_blank'> Link </a> ']
+    <a href = '#' target= '_blank'> Link </a> ']
 
   end
   
