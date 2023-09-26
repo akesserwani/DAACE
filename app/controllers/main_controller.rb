@@ -25,11 +25,11 @@ class MainController < ApplicationController
   def new
     @data_main = DataMain.new
 
-    @text_guide = '<h>Site Name</h><br> \n 
+    @text_guide = %q[ruby '<h>Site Name</h><br> \n 
     <p>Site Summary/Details</p><br><hr> \n 
     <h3>New Section</h3><br> \n 
     <p>Section Details</p><br><hr> \n 
-    <a href = '' target= '_blank'> Link </a> '
+    <a href = '' target= '_blank'> Link </a> ']
 
   end
   
