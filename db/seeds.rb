@@ -6,5 +6,6 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-user = User.create(email: "akesser@uab.edu", password: "admin23")
-user.save!
+# user = User.where(email: "akesser@uab.edu").first_or_initialize
+# user.name = "Ali Kesserwani"
+# user.save

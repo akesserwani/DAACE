@@ -25,6 +25,7 @@ class MainController < ApplicationController
   def new
     @data_main = DataMain.new
 
+    #text to insert into the form
     @text_guide = %q[<h>Site Name</h><br> 
     <p>Title</p><br><hr> 
     <h3>New Section</h3><br> 

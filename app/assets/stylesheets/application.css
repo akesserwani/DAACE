@@ -27,12 +27,17 @@ a:link {
   height: 80vh;
   background:#EAEAEA;
   margin:10px;
+  overflow-y:scroll;
+  overflow: -moz-scrollbars-vertical;
 }
 .list_2{
   width: 50%;
   height: 80vh;
   background:#EAEAEA;
   margin:10px;
+  overflow-y:scroll;
+  overflow: -moz-scrollbars-vertical;
+  
 
 }
 
@@ -138,9 +143,9 @@ footer{
   margin-bottom:10px;
   }
 
-  .list_element:hover{
-    background: rgb(179, 179, 179);
-  }
+.list_element:hover{
+  background: rgb(179, 179, 179);
+}
 
 .text_list_container{
   margin: 10px;
@@ -177,11 +182,6 @@ footer{
   cursor: pointer;
 }
 
-#add_button{
-  position: sticky;
-  margin-left: 20px;
-  bottom: 5%; 
-}
 
 .circle_button a:link{
   text-decoration: none !important;

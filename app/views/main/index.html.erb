@@ -5,35 +5,30 @@
     <div class="wrapper">
 
         <div class = "list_1">
-            <div class="container side_list">
+            <div class="side_list">
 
-            <!--Main Data-->
-            <% @view_data.where(:status => "approved").each do |p| %>
-                <%= link_to view_path(p) do %>
-                    <div class = "list_element">
-                        <div class = "text_list_container"> 
-                            <h class = "list_header"><%=p.title %></h>
-                            <p class = "list_para"> <%=p.location %></p>
-                            <p class = "list_para"> Period: <%=p.era %></p>
-                        </div>
-                    </div><br>
+                <!--Main Data-->
+                <% @view_data.where(:status => "approved").each do |p| %>
+                    <%= link_to view_path(p) do %>
+                        <div class = "list_element">
+                            <div class = "text_list_container"> 
+                                <h class = "list_header"><%=p.title %></h>
+                                <p class = "list_para"> <%=p.location %></p>
+                                <p class = "list_para"> Period: <%=p.era %></p>
+                            </div>
+                        </div><br>
+                    <%end%>
                 <%end%>
-            <%end%>
-
-            <!--Add Button on left -->
-            <%= link_to '<div class = "circle_button" id = "add_button" style = "float:left; margin:20px;"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">add</span></div>'.html_safe, new_path %>
-            <!--Search button on right -->
-            <div class = "circle_button" id = "search_button" style = "float:right; margin:20px;"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">search</span></div>
-
+                <div style="height: 100px"></div>
+            </div>
         </div>
-    </div>
 
 
 
 
         <!--Leaflet Map Container - only shows in user view - not admin view -->
         <div class = "list_2">
-            <div class="container side_list" id = "map_container">
+            <div class="side_list" id = "map_container">
 
             <!--Show submission boxes on top only if logged in-->
             <%if user_signed_in?%>
@@ -51,18 +46,27 @@
                             </div>
                         </div><br>
                     <%end%>
+
                 <%end%>
 
+                <div style="height: 100px"></div>
             <%else%>
                 <!--Display map when not logged in-->
-                <div id="map" style = "width: 100%; height: 100%;"></div>
+                <div id="map" style = "width: 100%; height: 100%; z-index:1;"></div>
             <%end%>
             </div>
         </div>
 
-
+        <!--Container for buttons-->
+    <div style = "position: fixed; left: 0; bottom: 0; height:200px; width: 100%;display:sticky; z-index:999;">
+        <!--Add Button on left -->
+        <%= link_to '<div style = "float:left; margin:50px;" class = "circle_button"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">add</span></div>'.html_safe, new_path %>
+        <!--Search Button on right -->
+        <div style = "float:right; margin:50px;" class = "circle_button"><span class="material-symbols-outlined" style = "color:white; font-size: 40px;">search</span></div>
+    </div>
 
     </div>
+
 
 
     <!--Leaflet Map -->
