@@ -26,10 +26,9 @@ class MainController < ApplicationController
     @data_main = DataMain.new
 
     #text to insert into the form
-    @text_guide = %q[<h>Site Name</h><br> 
+    @text_guide = %q[
     <p>Title</p><br><hr> 
-    <h3>New Section</h3><br> 
-    <p>Section Details</p><br><hr> 
+    <p>Details</p><br><hr> 
     <a href = '#' target= '_blank'> Link </a>]
 
   end
